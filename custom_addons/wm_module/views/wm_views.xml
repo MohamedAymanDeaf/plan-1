@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- JOBS: list + form + action -->
+    <record id="view_wm_job_list" model="ir.ui.view">
+        <field name="name">wm.job.list</field>
+        <field name="model">wm.job</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="part_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_wm_job_form" model="ir.ui.view">
+        <field name="name">wm.job.form</field>
+        <field name="model">wm.job</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="part_ids" widget="one2many_list"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wm_job" model="ir.actions.act_window">
+        <field name="name">Jobs</field>
+        <field name="res_model">wm.job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- PARTS: list + form + action -->
+    <record id="view_wm_part_list" model="ir.ui.view">
+        <field name="name">wm.part.list</field>
+        <field name="model">wm.part</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="job_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_wm_part_form" model="ir.ui.view">
+        <field name="name">wm.part.form</field>
+        <field name="model">wm.part</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="job_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wm_part" model="ir.actions.act_window">
+        <field name="name">Parts</field>
+        <field name="res_model">wm.part</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ORDERS: list + form + action -->
+    <record id="view_wm_order_list" model="ir.ui.view">
+        <field name="name">wm.order.list</field>
+        <field name="model">wm.order</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="job_id"/>
+                <field name="date"/>
+                <field name="part_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_wm_order_form" model="ir.ui.view">
+        <field name="name">wm.order.form</field>
+        <field name="model">wm.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="job_id"/>
+                        <field name="part_ids" widget="many2many_tags"/>
+                        <field name="date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wm_order" model="ir.actions.act_window">
+        <field name="name">Orders</field>
+        <field name="res_model">wm.order</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_wm_root" name="Work Management" sequence="10"/>
+    <menuitem id="menu_wm_jobs" name="Jobs" parent="menu_wm_root" action="action_wm_job" sequence="20"/>
+    <menuitem id="menu_wm_parts" name="Parts" parent="menu_wm_root" action="action_wm_part" sequence="30"/>
+    <menuitem id="menu_wm_orders" name="Orders" parent="menu_wm_root" action="action_wm_order" sequence="40"/>
+</odoo>
