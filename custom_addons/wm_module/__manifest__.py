@@ -1,7 +1,7 @@
 {
     'name': 'Work Management',
     'version': '1.0',
-    'summary': 'Jobs, Parts and Orders (minimal)',
+    'summary': 'Jobs, Parts, Orders with lines (wm_module) - Odoo 18',
     'category': 'Operations',
     'author': 'Mohamed',
     'depends': ['base'],
