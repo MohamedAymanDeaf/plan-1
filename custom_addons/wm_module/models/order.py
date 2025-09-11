@@ -21,8 +21,29 @@ class Order(models.Model):
     total_quantity = fields.Float(string='Total Quantity', compute='_compute_totals', store=True)
     total_amount = fields.Float(string='Total Amount', compute='_compute_totals', store=True)
 
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Cancelled'),
+    ], string='Status', default='draft')
+
     @api.depends('line_ids.quantity', 'line_ids.subtotal')
     def _compute_totals(self):
         for order in self:
             order.total_quantity = sum(line.quantity for line in order.line_ids)
             order.total_amount = sum(line.subtotal for line in order.line_ids)
+
+    _sql_constraints = [
+        ('unique_order_name', 'unique(name)', 'Order name must be unique!')
+    ]
+
+    # def button_change_status(self):
+        # """Open the wizard for changing order status"""
+        # return {
+        #     'name': 'Change Order Status',
+        #     'type': 'ir.actions.act_window',
+        #     'res_model': 'order.status.wizard',
+        #     'view_mode': 'form',
+        #     'target': 'new',
+        #     'context': {'default_order_id': self.id},
+        # }

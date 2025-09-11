@@ -3,3 +3,4 @@ access_job_user,access_job,model_job,base.group_user,1,1,1,1
 access_part_user,access_part,model_part,base.group_user,1,1,1,1
 access_order_user,access_order,model_order,base.group_user,1,1,1,1
 access_order_line_user,access_order_line,model_order_line,base.group_user,1,1,1,1
+access_order_status_wizard,access_order_status_wizard,model_order_status_wizard,base.group_user,1,1,1,1

@@ -1,3 +1,4 @@
+
 from odoo import models, fields, api
 
 class Job(models.Model):
@@ -22,3 +23,12 @@ class Job(models.Model):
     def _compute_part_count(self):
         for rec in self:
             rec.part_count = len(rec.order_line_ids)
+
+
+
+
+
+
+
+
+

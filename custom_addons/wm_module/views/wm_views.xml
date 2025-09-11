@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-
-   <record id="view_job_list" model="ir.ui.view">
+    <record id="view_job_list" model="ir.ui.view">
         <field name="name">job.list</field>
         <field name="model">job</field>
         <field name="arch" type="xml">
@@ -39,13 +38,6 @@
         </field>
     </record>
 
-    <record id="action_job" model="ir.actions.act_window">
-        <field name="name">Jobs</field>
-        <field name="res_model">job</field>
-        <field name="view_mode">list,form</field>
-    </record>
-
-
     <record id="view_part_list" model="ir.ui.view">
         <field name="name">part.list</field>
         <field name="model">part</field>
@@ -76,13 +68,6 @@
             </form>
         </field>
     </record>
-
-    <record id="action_part" model="ir.actions.act_window">
-        <field name="name">Parts</field>
-        <field name="res_model">part</field>
-        <field name="view_mode">list,form</field>
-    </record>
-
 
     <record id="view_order_line_list" model="ir.ui.view">
         <field name="name">order_line.list</field>
@@ -128,14 +113,32 @@
                 <field name="total_amount"/>
             </list>
         </field>
-    </record>
 
+    </record>
+    <record id="action_order_status_wizard" model="ir.actions.act_window">
+            <field name="name">Change Order Status</field>
+            <field name="res_model">order.status.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+    </record>
     <record id="view_order_form" model="ir.ui.view">
         <field name="name">order.form</field>
         <field name="model">order</field>
         <field name="arch" type="xml">
             <form>
+                   <header>
+
+                     <button name="%(action_order_status_wizard)d"
+                             type="action"
+                             string="Change Status"
+                             class="btn-primary"/>
+<!--                       <button name="button_change_status"-->
+<!--                              type="object"-->
+<!--                              string="Change Status"-->
+<!--                              class="btn-primary"/>-->
+                    </header>
                 <sheet>
+
                     <group>
                         <field name="name" readonly="1"/>
                         <field name="job_id"/>
@@ -161,9 +164,41 @@
                             </group>
                         </page>
                     </notebook>
+
                 </sheet>
             </form>
         </field>
+    </record>
+
+
+    <record id="view_order_status_wizard_form" model="ir.ui.view">
+        <field name="name">order.status.wizard.form</field>
+        <field name="model">order.status.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Change Order Status">
+                <group>
+                    <field name="status"/>
+                </group>
+                <footer>
+                    <button name="action_apply" type="object" string="Apply" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="action_job" model="ir.actions.act_window">
+        <field name="name">Jobs</field>
+        <field name="res_model">job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_part" model="ir.actions.act_window">
+        <field name="name">Parts</field>
+        <field name="res_model">part</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record id="action_order" model="ir.actions.act_window">
@@ -171,7 +206,6 @@
         <field name="res_model">order</field>
         <field name="view_mode">list,form</field>
     </record>
-
 
     <menuitem id="menu_wm_root" name="Work Management" sequence="10"/>
     <menuitem id="menu_jobs" name="Jobs" parent="menu_wm_root" action="action_job" sequence="20"/>
