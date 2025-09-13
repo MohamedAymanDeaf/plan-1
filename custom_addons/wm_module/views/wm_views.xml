@@ -90,8 +90,10 @@
                 <sheet>
                     <group>
                         <field name="order_id"/>
+                        <field name="company_id"/>
+                        <field name="job_id"/>
                         <field name="part_id"
-                               domain="[('active','=',True), ('company_id','=', order_id.company_id), ('job_id','=', order_id.job_id)]"/>
+                               domain="[('active','=',True), ('company_id','=', company_id), ('job_id','=', job_id)]"/>
                         <field name="quantity"/>
                         <field name="price_unit"/>
                         <field name="subtotal" readonly="1"/>
@@ -113,32 +115,27 @@
                 <field name="total_amount"/>
             </list>
         </field>
+    </record>
 
-    </record>
     <record id="action_order_status_wizard" model="ir.actions.act_window">
-            <field name="name">Change Order Status</field>
-            <field name="res_model">order.status.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
+        <field name="name">Change Order Status</field>
+        <field name="res_model">order.status.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
     </record>
+
     <record id="view_order_form" model="ir.ui.view">
         <field name="name">order.form</field>
         <field name="model">order</field>
         <field name="arch" type="xml">
             <form>
-                   <header>
-
+                <header>
                      <button name="%(action_order_status_wizard)d"
                              type="action"
                              string="Change Status"
                              class="btn-primary"/>
-<!--                       <button name="button_change_status"-->
-<!--                              type="object"-->
-<!--                              string="Change Status"-->
-<!--                              class="btn-primary"/>-->
-                    </header>
+                </header>
                 <sheet>
-
                     <group>
                         <field name="name" readonly="1"/>
                         <field name="job_id"/>
@@ -147,10 +144,10 @@
                     </group>
                     <notebook>
                         <page string="Order Lines">
-                            <field name="line_ids" context="{'default_job_id': job_id}">
+                            <field name="line_ids" context="{'default_job_id': job_id, 'default_company_id': company_id}">
                                 <list editable="bottom">
                                     <field name="part_id"
-                                           domain="[('active','=',True), ('company_id','=', order_id.company_id), ('job_id','=', order_id.job_id)]"/>
+                                           domain="[('active','=',True), ('company_id','=', company_id), ('job_id','=', job_id)]"/>
                                     <field name="quantity"/>
                                     <field name="price_unit"/>
                                     <field name="subtotal"/>
@@ -164,12 +161,13 @@
                             </group>
                         </page>
                     </notebook>
-
                 </sheet>
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread"/>
             </form>
         </field>
     </record>
-
 
     <record id="view_order_status_wizard_form" model="ir.ui.view">
         <field name="name">order.status.wizard.form</field>
@@ -187,7 +185,24 @@
         </field>
     </record>
 
+    <!-- Server Action -->
+    <record id="server_action_autonumber_orders" model="ir.actions.server">
+        <field name="name">Autonumber Old Orders</field>
+        <field name="model_id" ref="model_order"/>
+        <field name="state">code</field>
+        <field name="code">env['order'].action_autonumber_old_orders()</field>
+    </record>
 
+    <!-- Cron Job -->
+    <record id="ir_cron_auto_close_old_orders" model="ir.cron">
+        <field name="name">Auto-close Old Orders</field>
+        <field name="model_id" ref="model_order"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_auto_close_old_orders()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
 
     <record id="action_job" model="ir.actions.act_window">
         <field name="name">Jobs</field>
