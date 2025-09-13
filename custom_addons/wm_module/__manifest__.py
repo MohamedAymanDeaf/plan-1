@@ -6,6 +6,7 @@
     'author': 'Mohamed',
     'depends': ['base', 'mail'],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'data/sequence_wm.xml',
         'views/wm_views.xml',

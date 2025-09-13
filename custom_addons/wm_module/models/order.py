@@ -55,13 +55,11 @@ class Order(models.Model):
         ('unique_order_name', 'unique(name)', 'Order name must be unique!')
     ]
 
-    # -------- Server Action: Autonumber for older orders --------
     def action_autonumber_old_orders(self):
         """Assign sequence numbers to old orders without a proper name"""
         for order in self.search([('name', '=', 'New')]):
             order.name = self.env['ir.sequence'].next_by_code('order') or 'New'
 
-    # -------- Cron Job: Auto-close orders older than 30 days --------
     @api.model
     def cron_auto_close_old_orders(self):
         """Close orders older than 30 days that are still in draft/confirmed"""
