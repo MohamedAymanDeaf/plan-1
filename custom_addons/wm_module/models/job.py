@@ -1,4 +1,3 @@
-
 from odoo import models, fields, api
 
 class Job(models.Model):
@@ -6,6 +5,12 @@ class Job(models.Model):
     _description = "Job"
 
     name = fields.Char(string="Name", required=True)
+    company_id = fields.Many2one(
+        'res.company',
+        string='Company',
+        default=lambda self: self.env.company,
+        index=True
+    )
 
     order_line_ids = fields.One2many(
         comodel_name="order_line",
@@ -23,12 +28,3 @@ class Job(models.Model):
     def _compute_part_count(self):
         for rec in self:
             rec.part_count = len(rec.order_line_ids)
-
-
-
-
-
-
-
-
-

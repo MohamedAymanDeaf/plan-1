@@ -21,6 +21,7 @@ class Order(models.Model):
         'res.company',
         string='Company',
         default=lambda self: self.env.company,
+        index=True,
         tracking=True
     )
 

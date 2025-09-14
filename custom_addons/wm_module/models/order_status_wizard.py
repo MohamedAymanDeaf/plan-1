@@ -10,6 +10,7 @@ class OrderStatusWizard(models.TransientModel):
         ('cancelled', 'Cancelled'),
     ], string='New Status', required=True)
     order_id = fields.Many2one('order', string='Order')
+
     def action_apply(self):
         active_ids = self.env.context.get('active_ids')
         if active_ids:
