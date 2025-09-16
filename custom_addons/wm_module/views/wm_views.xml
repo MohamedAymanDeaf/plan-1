@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-
     <record id="view_job_list" model="ir.ui.view">
         <field name="name">job.list</field>
         <field name="model">job</field>
@@ -41,7 +40,6 @@
         </field>
     </record>
 
-
     <record id="view_part_list" model="ir.ui.view">
         <field name="name">part.list</field>
         <field name="model">part</field>
@@ -75,7 +73,6 @@
             </form>
         </field>
     </record>
-
 
     <record id="view_order_line_list" model="ir.ui.view">
         <field name="name">order_line.list</field>
@@ -114,7 +111,6 @@
         </field>
     </record>
 
-
     <record id="view_order_list" model="ir.ui.view">
         <field name="name">order.list</field>
         <field name="model">order</field>
@@ -131,25 +127,32 @@
         </field>
     </record>
 
-    <record id="action_order_status_wizard" model="ir.actions.act_window">
-        <field name="name">Change Order Status</field>
-        <field name="res_model">order.status.wizard</field>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>
-    </record>
-
     <record id="view_order_form" model="ir.ui.view">
         <field name="name">order.form</field>
         <field name="model">order</field>
         <field name="arch" type="xml">
             <form>
                 <header>
-                     <button name="%(action_order_status_wizard)d"
-                             type="action"
-                             string="Change Status"
-                             class="btn-primary"/>
+                    <button name="action_open_status_wizard"
+                            type="object"
+                            string="Change Status"
+                            class="btn-primary"/>
+                    <button name="action_create_invoice"
+                            type="object"
+                            string="Create Invoice"
+                            class="btn-secondary"/>
                 </header>
+
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_invoices"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-invoice">
+                            <field string="Invoices" name="invoice_count" widget="statinfo"/>
+                        </button>
+                    </div>
+
                     <group>
                         <field name="name" readonly="1"/>
                         <field name="job_id"/>
@@ -157,6 +160,7 @@
                         <field name="company_id"/>
                         <field name="state"/>
                     </group>
+
                     <notebook>
                         <page string="Order Lines">
                             <field name="line_ids" context="{'default_job_id': job_id, 'default_company_id': company_id}">
@@ -177,6 +181,7 @@
                         </page>
                     </notebook>
                 </sheet>
+
                 <field name="message_follower_ids" widget="mail_followers"/>
                 <field name="activity_ids" widget="mail_activity"/>
                 <field name="message_ids" widget="mail_thread"/>
@@ -184,13 +189,13 @@
         </field>
     </record>
 
-
     <record id="view_order_status_wizard_form" model="ir.ui.view">
         <field name="name">order.status.wizard.form</field>
         <field name="model">order.status.wizard</field>
         <field name="arch" type="xml">
             <form string="Change Order Status">
                 <group>
+                    <field name="order_id"/>
                     <field name="status"/>
                 </group>
                 <footer>
@@ -218,7 +223,6 @@
         <field name="interval_type">days</field>
         <field name="active">True</field>
     </record>
-
 
     <record id="action_job" model="ir.actions.act_window">
         <field name="name">Jobs</field>

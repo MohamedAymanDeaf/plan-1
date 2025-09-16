@@ -4,7 +4,7 @@
     'summary': 'Jobs, Parts, Orders with lines (wm_module) - Odoo 18',
     'category': 'Operations',
     'author': 'Mohamed',
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail', 'account'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
